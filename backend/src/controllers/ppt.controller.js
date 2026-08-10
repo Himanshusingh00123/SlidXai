@@ -4,16 +4,22 @@ import { exec } from "child_process";
 import { promisify } from "util";
 import cloudStorage from "../services/storage.service.js";
 import { cwd } from "process";
-import path from "path";
+import path, { dirname } from "path";
 import pptModel from "../models/ppt.model.js";
 
 const execPromise = promisify(exec);
+const tempDir = path.join(import.meta.dirname, "../temp");
 const filePath = path.join(import.meta.dirname, "../temp/presentation.js");
 const PptFilePath = path.join(import.meta.dirname, "../../Presentation.pptx");
 
 const generatePpt = async (req, res) => {
   try {
     const { pptDescription } = req.body;
+
+    if (!fs.existsSync(tempDir)) {
+      fs.mkdirSync(tempDir, { recursive: true });
+    }
+
     const code = await pptCode(pptDescription);
     if (typeof code === "object") {
       return res.status(429).json(code);
