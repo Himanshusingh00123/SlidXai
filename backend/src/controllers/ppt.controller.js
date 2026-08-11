@@ -3,16 +3,15 @@ import pptCode from "../services/pptCode.service.js";
 import { exec } from "child_process";
 import { promisify } from "util";
 import cloudStorage from "../services/storage.service.js";
-import { cwd } from "process";
 import path, { dirname } from "path";
 import pptModel from "../models/ppt.model.js";
 
-const execPromise = promisify(exec);
-const tempDir = path.join(import.meta.dirname, "../temp");
-const filePath = path.join(import.meta.dirname, "../temp/presentation.js");
-const PptFilePath = path.join(import.meta.dirname, "../../Presentation.pptx");
-
 const generatePpt = async (req, res) => {
+  const execPromise = promisify(exec);
+  const tempDir = path.join(import.meta.dirname, "../temp");
+  const filePath = path.join(import.meta.dirname, "../temp/presentation.js");
+  const PptFilePath = path.join(import.meta.dirname, "../../Presentation.pptx");
+
   try {
     const { pptDescription } = req.body;
 
@@ -40,7 +39,7 @@ const generatePpt = async (req, res) => {
     const pptData = await cloudStorage();
 
     const userPPT = await pptModel.create({
-      userId: "6a756e7a8b1342e00b69acbc",
+      userId: "6a756e668b1342e00b69acbb",
       title: pptData.name || "Untitled Presentation",
       ppt: pptData.url,
     });
