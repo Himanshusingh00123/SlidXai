@@ -1,6 +1,6 @@
 import { use, useEffect } from "react";
 
-const Profile = () => {
+const Dashboard = () => {
   const fetchProfile = async () => {
     const response = await fetch("http://localhost:5000/auth/get-me", {
       mehtod: "GET",
@@ -116,4 +116,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Dashboard;

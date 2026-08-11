@@ -1,6 +1,6 @@
 import React from "react";
-import logoText from "../assets/logoText.png";
-import logo from "../../public/Logo.png";
+import logo from "../assets/logo.png";
+
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -25,12 +25,6 @@ const Login = () => {
                   src={logo}
                   alt="Logo"
                   className="h-12 w-12 object-contain sm:h-14 sm:w-14"
-                />
-
-                <img
-                  src={logoText}
-                  alt="Logo"
-                  className="-ml-4 w-32 object-contain sm:w-36"
                 />
               </div>
 

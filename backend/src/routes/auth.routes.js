@@ -18,7 +18,7 @@ router.get(
     failureRedirect: `${process.env.CLIENT_URL}/login`,
   }),
   async (req, res) => {
-    res.redirect(`${process.env.CLIENT_URL}/profile`);
+    res.redirect(`${process.env.CLIENT_URL}/dashboard`);
   },
 );
 
@@ -35,7 +35,7 @@ router.get(
     failureRedirect: `${process.env.CLIENT_URL}/login`,
   }),
   async (req, res) => {
-    res.redirect(`${process.env.CLIENT_URL}/profile`);
+    res.redirect(`${process.env.CLIENT_URL}/dashboard`);
   },
 );
 
