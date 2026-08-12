@@ -7,7 +7,7 @@ const pptCode = async (pptDescription) => {
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: process.env.GEMINI_MODEL,
       contents: `
 You are a senior PowerPoint presentation designer, information architect, visual storyteller, executive consultant, and expert PptxGenJS engineer.
 

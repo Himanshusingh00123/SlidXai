@@ -84,7 +84,7 @@ export const fetchAllPpt = async (req, res) => {
     // const user = req.user.id;
 
     const PptResponse = await pptModel.find({
-      userId: "6a756e668b1342e00b69acbb",
+      userId: "6a756e7a8b1342e00b69acbc",
     });
 
     if (!PptResponse || PptResponse.length === 0) {
