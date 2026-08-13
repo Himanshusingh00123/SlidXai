@@ -1,20 +1,13 @@
 import { useState, useEffect } from "react";
-import GooeyNav from "@/components/GooeyNav";
 import Lightfall from "@/components/Lightfall";
-import logoImage from "../assets/logoImage.png";
-import FoldText from "@/components/FoldText";
 import Heroimg from "../assets/Heroimg.png";
+import FoldText from "@/components/FoldText";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import ScrollStack, { ScrollStackItem } from "@/components/ScrollStack";
+import { Link } from "react-router-dom";
 
 const Home = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const items = [
-    { label: "Home", link: "/" },
-    { label: "About", link: "/about" },
-    { label: "Features", link: "/services" },
-    { label: "How It Works", link: "/contact" },
-  ];
-
   const [fontSize, setFontSize] = useState(80);
 
   useEffect(() => {
@@ -24,7 +17,7 @@ const Home = () => {
       if (width < 640) {
         setFontSize(41);
       } else if (width < 768) {
-        setFontSize(44);
+        setFontSize(56);
       } else if (width < 1024) {
         setFontSize(58);
       } else {
@@ -42,183 +35,17 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
-      <div className="relative min-h-screen w-full overflow-hidden">
-        {/* Background */}
+    <div className="relative min-h-screen w-full ">
+      {/* Background */}
+      <div className="fixed inset-0 -z-10   pointer-events-none">
         <Lightfall />
+      </div>
 
-        {/* Navbar */}
-        <nav
-          className="
-          sm:overflow-hidden
-          relative z-40
-          mx-3 mt-3
-          sm:mx-5 sm:mt-4
-          lg:mx-8 lg:mt-5
-          h-14 sm:h-16
-          rounded-full
-          border border-white/10
-          bg-white/3
-          px-4 sm:px-5
-          backdrop-blur-xl
-          shadow-2xl
-        "
-        >
-          <div className="mx-auto flex h-full max-w-7xl items-center justify-between">
-            {/* Logo */}
-            <a href="/" className="flex shrink-0 items-center">
-              <img
-                src={logoImage}
-                alt="SlidXai"
-                className="
-                h-16 w-auto
-                sm:h-18
-                lg:h-20
-                object-contain
-                cursor-pointer
-              "
-              />
-            </a>
+      {/* Navbar */}
+      <div className="relative z-20 ">
+        <Navbar />
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex flex-1 items-center justify-center">
-              <GooeyNav
-                items={items}
-                particleCount={15}
-                particleDistances={[90, 10]}
-                particleR={100}
-                initialActiveIndex={0}
-                animationTime={600}
-                timeVariance={300}
-                colors={[1, 2, 3, 1, 2, 3, 1, 4]}
-              />
-            </div>
-
-            {/* Desktop Login */}
-            <div className="hidden md:flex shrink-0 items-center justify-end">
-              <button
-                className="
-                rounded-lg
-                border border-white/15
-                bg-white/6
-                px-5 py-2.5
-                text-sm font-medium
-                text-white/90
-                cursor-pointer
-                transition-all duration-200
-                hover:border-white/20
-                hover:bg-white
-                hover:text-black
-                active:scale-95
-              "
-              >
-                Log in
-              </button>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Toggle navigation"
-              aria-expanded={menuOpen}
-              className="
-              flex md:hidden
-              h-10 w-10
-              items-center justify-center
-              rounded-lg
-              border border-white/10
-              bg-white/5
-              text-white
-              transition
-              hover:bg-white/10
-            "
-            >
-              <div className="flex flex-col gap-1.5">
-                <span
-                  className={`
-                  block h-0.5 w-5 bg-white transition-transform duration-200
-                  ${menuOpen ? "translate-y-2 rotate-45" : ""}
-                `}
-                />
-                <span
-                  className={`
-                  block h-0.5 w-5 bg-white transition-opacity duration-200
-                  ${menuOpen ? "opacity-0" : ""}
-                `}
-                />
-                <span
-                  className={`
-                  block h-0.5 w-5 bg-white transition-transform duration-200
-                  ${menuOpen ? "-translate-y-2 -rotate-45" : ""}
-                `}
-                />
-              </div>
-            </button>
-          </div>
-
-          {/* Mobile Navigation */}
-          <div
-            className={`
-            absolute left-0 right-0 top-[calc(100%+10px)]
-            md:hidden
-            overflow-hidden
-            rounded-2xl
-            border border-white/10
-            bg-[#07101f]/90
-            backdrop-blur-2xl
-            shadow-2xl
-            transition-all duration-300
-            ${
-              menuOpen
-                ? "visible max-h-100 opacity-100"
-                : "invisible max-h-0 opacity-0"
-            }
-          `}
-          >
-            <div className="flex flex-col p-3">
-              {items.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.link}
-                  onClick={() => setMenuOpen(false)}
-                  className="
-                  rounded-xl
-                  px-4 py-3
-                  text-sm font-medium
-                  text-white/70
-                  transition-colors
-                  hover:bg-white/6
-                  hover:text-white
-                "
-                >
-                  {item.label}
-                </a>
-              ))}
-
-              <div className="my-2 h-px bg-white/10" />
-
-              <button
-                className="
-                rounded-xl
-                border border-white/15
-                bg-white/6
-                max-sm:bg-white/90
-                px-4 py-3
-                text-sm font-medium
-                text-white
-                max-sm:text-black
-                transition-all
-                hover:bg-white
-                hover:text-black
-              "
-              >
-                Log in
-              </button>
-            </div>
-          </div>
-        </nav>
-
-        <div className=" relative z-20 flex justify-center items-center">
+        <div className=" flex justify-center items-center sm:pt-24 pt-16">
           <div className="md:w-9/12  flex-cols  md:py-15  sm:p-10 p-8 text-center">
             <h1 className="rounded-full md:text-4xl text-sm md:mb-5 mb-3 text-amber-300/80 font-bold">
               <span className="bg-white/10 py-1 px-6 rounded-full">
@@ -265,7 +92,7 @@ const Home = () => {
                   w-full
                   max-w-xs
                   cursor-pointer
-                  rounded-lg
+                  rounded-4xl
                   bg-linear-to-b from-blue-500 to-blue-600
                   px-6 py-3
                   text-base
@@ -294,7 +121,7 @@ const Home = () => {
                   w-full
                   max-w-xs
                   cursor-pointer
-                  rounded-lg
+                  rounded-4xl
                    border border-white/60
                 bg-white/4
                   px-6 py-3
@@ -323,7 +150,6 @@ const Home = () => {
 
         <section
           className="
-            relative z-10
             flex
             w-full
             justify-center
@@ -337,6 +163,9 @@ const Home = () => {
         >
           <div
             className="
+            hover:scale-102
+            transition-all
+            duration-600
               relative
               flex
               w-full
@@ -393,6 +222,167 @@ const Home = () => {
             </div>
           </div>
         </section>
+
+        <section className="pb-110 sm:pb-70">
+          <ScrollStack>
+            <ScrollStackItem itemClassName="bg-[#0B0F19] text-white  border border-white/10 overflow-hidden">
+              <div className="h-full  flex flex-col md:flex-row items-center justify-between gap-8">
+                <div className="max-w-2xl">
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-5 rounded-full bg-white/10 border border-white/10 text-sm text-white/70">
+                    ✦ AI-Powered Presentation Builder
+                  </div>
+                  <h2 className="text-4xl md:text-6xl font-bold tracking-tight leading-tight">
+                    Turn your ideas into
+                    <span className="text-amber-300"> stunning slides.</span>
+                  </h2>
+
+                  <p className="mt-5 text-lg text-white/60 max-w-xl">
+                    Slidxa AI transforms your ideas, notes, and documents into
+                    polished presentations in seconds — without starting from a
+                    blank slide.
+                  </p>
+
+                  <div className="mt-7 flex flex-wrap gap-3">
+                    <span className="px-4 py-2 rounded-full bg-white/10 text-sm">
+                      ✦ AI Generation
+                    </span>
+                    <span className="px-4 py-2 rounded-full bg-white/10 text-sm">
+                      ⚡ Seconds, not hours
+                    </span>
+                  </div>
+                </div>
+
+                <div className="relative w-full md:w-90 h-55 rounded-3xl bg-linear-to-br from-amber-300/30 to-orange-500/10 border border-white/10 flex items-center justify-center">
+                  <div className="absolute w-32 h-32 rounded-full bg-amber-300/20 blur-3xl" />
+
+                  <div className="relative w-56 p-5 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl rotate-[-4deg]">
+                    <div className="h-3 w-24 rounded-full bg-white/30 mb-4" />
+                    <div className="h-2 w-full rounded-full bg-white/10 mb-2" />
+                    <div className="h-2 w-4/5 rounded-full bg-white/10 mb-5" />
+
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="h-16 rounded-lg bg-amber-300/60" />
+                      <div className="h-16 rounded-lg bg-white/10" />
+                      <div className="h-16 rounded-lg bg-white/10" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ScrollStackItem>
+
+            <ScrollStackItem itemClassName="bg-[#F5F7FF] h-auto text-slate-900 border border-slate-200 overflow-hidden">
+              <div className="h-full flex flex-col md:flex-row items-center justify-between gap-8">
+                <div className="max-w-2xl">
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-5 rounded-full bg-indigo-100 text-indigo-600 text-sm font-medium">
+                    ✨ From prompt to presentation
+                  </div>
+
+                  <h2 className="text-4xl md:text-6xl font-bold tracking-tight leading-tight">
+                    Your idea.
+                    <br />
+                    <span className="text-indigo-500">Our intelligence.</span>
+                  </h2>
+
+                  <p className="mt-5 text-lg text-slate-500 max-w-xl">
+                    Just describe what you want to present. Slidxa AI structures
+                    your content, creates the narrative, and designs every slide
+                    around your message.
+                  </p>
+
+                  <div className="mt-7 flex items-center gap-3">
+                    <div className="flex -space-x-2">
+                      <div className="w-9 h-9 rounded-full bg-indigo-200 border-2 border-white flex items-center justify-center">
+                        ✦
+                      </div>
+                      <div className="w-9 h-9 rounded-full bg-purple-200 border-2 border-white flex items-center justify-center">
+                        AI
+                      </div>
+                      <div className="w-9 h-9 rounded-full bg-pink-200 border-2 border-white flex items-center justify-center">
+                        ⚡
+                      </div>
+                    </div>
+
+                    <span className="text-sm text-slate-500">
+                      Built for creators, teams & businesses
+                    </span>
+                  </div>
+                </div>
+
+                <div className="relative w-full md:w-90 h-55">
+                  <div className="absolute left-8 top-8 w-64 h-40 rounded-2xl bg-white border border-slate-200 shadow-xl rotate-[-8deg] p-5">
+                    <div className="h-3 w-28 rounded bg-indigo-200 mb-4" />
+                    <div className="h-2 w-full rounded bg-slate-100 mb-2" />
+                    <div className="h-2 w-3/4 rounded bg-slate-100" />
+                  </div>
+
+                  <div className="absolute right-4 top-4 w-64 h-40 rounded-2xl bg-indigo-500 text-white shadow-2xl p-5 rotate-[5deg]">
+                    <div className="text-xs text-white/60 mb-3">SLIDXA AI</div>
+
+                    <div className="text-xl font-bold">
+                      Build better.
+                      <br />
+                      Present smarter.
+                    </div>
+
+                    <div className="mt-4 h-2 w-24 rounded bg-white/30" />
+                  </div>
+                </div>
+              </div>
+            </ScrollStackItem>
+
+            <ScrollStackItem itemClassName="h-auto bg-gradient-to-br from-violet-600 via-indigo-600 to-blue-600 text-white overflow-hidden">
+              <div className="h-full flex flex-col md:flex-row items-center justify-between gap-8">
+                <div className="max-w-2xl">
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-5 rounded-full bg-white/10 border border-white/10 text-sm">
+                    🚀 Ready when you are
+                  </div>
+                  <h2 className="text-4xl md:text-6xl font-bold tracking-tight leading-tight">
+                    Stop designing slides.
+                    <br />
+                    <span className="text-blue-200">
+                      Start telling stories.
+                    </span>
+                  </h2>
+
+                  <p className="mt-5 text-lg text-white/70 max-w-xl">
+                    Create presentations that look professional, communicate
+                    clearly, and feel like they were designed by an expert.
+                  </p>
+
+                  <button className="mt-7 cursor-pointer px-7 py-3.5 rounded-xl bg-white text-indigo-600 font-semibold hover:scale-105 transition-transform shadow-xl">
+                    <Link to="/login">Create your first presentation →</Link>
+                  </button>
+                </div>
+
+                <div className="relative w-full md:w-90 h-55 flex items-center justify-center">
+                  <div className="absolute w-48 h-48 rounded-full bg-white/10 blur-2xl" />
+
+                  <div className="relative grid grid-cols-2 gap-4">
+                    <div className="w-28 h-20 rounded-xl bg-white/20 backdrop-blur border border-white/20 p-4 rotate-[-8deg]">
+                      <div className="w-12 h-2 rounded bg-white/60 mb-3" />
+                      <div className="w-full h-2 rounded bg-white/20" />
+                    </div>
+
+                    <div className="w-28 h-20 rounded-xl bg-white/20 backdrop-blur border border-white/20 p-4 rotate-[7deg]">
+                      <div className="w-16 h-2 rounded bg-white/60 mb-3" />
+                      <div className="w-full h-2 rounded bg-white/20" />
+                    </div>
+
+                    <div className="w-28 h-20 rounded-xl bg-white/20 backdrop-blur border border-white/20 p-4 rotate-[5deg]">
+                      <div className="text-2xl">✦</div>
+                    </div>
+
+                    <div className="w-28 h-20 rounded-xl bg-white/20 backdrop-blur border border-white/20 p-4 rotate-[-5deg]">
+                      <div className="text-2xl">⚡</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ScrollStackItem>
+          </ScrollStack>
+        </section>
+
+        <Footer />
       </div>
     </div>
   );
