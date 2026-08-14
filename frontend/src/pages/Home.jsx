@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import Lightfall from "@/components/Lightfall";
-import Heroimg from "../assets/Heroimg.png";
+import AutoCarousel from "@/components/AutoCarousel";
 import FoldText from "@/components/FoldText";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollStack, { ScrollStackItem } from "@/components/ScrollStack";
 import { Link } from "react-router-dom";
+import ScrollVelocity from "@/components/ScrollVelocity";
 
 const Home = () => {
   const [fontSize, setFontSize] = useState(80);
@@ -42,8 +43,11 @@ const Home = () => {
       </div>
 
       {/* Navbar */}
+
       <div className="relative z-20 ">
         <Navbar />
+
+        {/* Hero section CTA */}
 
         <div className=" flex justify-center items-center sm:pt-24 pt-16">
           <div className="md:w-9/12  flex-cols  md:py-15  sm:p-10 p-8 text-center">
@@ -87,7 +91,8 @@ const Home = () => {
                 md:gap-6
               "
             >
-              <button
+              <Link
+                to="/login"
                 className="
                   w-full
                   max-w-xs
@@ -114,7 +119,7 @@ const Home = () => {
                 "
               >
                 Create a presentation
-              </button>
+              </Link>
 
               <button
                 className="
@@ -147,6 +152,8 @@ const Home = () => {
             </div>
           </div>
         </div>
+
+        {/* Hero Section image */}
 
         <section
           className="
@@ -208,22 +215,28 @@ const Home = () => {
                   md:rounded-[20px]
                 "
               >
-                <img
-                  src={Heroimg}
-                  alt="SlidXai presentation dashboard"
-                  className="
-                    block
-                    h-auto
-                    w-full
-                    object-contain
-                  "
-                />
+                <AutoCarousel />
               </div>
             </div>
           </div>
         </section>
 
-        <section className="pb-110 sm:pb-70">
+        {/* Moving text */}
+
+        <section className="bg-black p-2 sm:mx-10 mx-2 rounded-2xl">
+          <ScrollVelocity
+            texts={["SlidXai , Ideas Into Presentations."]}
+            velocity={100}
+            className="custom-scroll-text"
+            numCopies={6}
+            damping={50}
+            stiffness={400}
+          />
+        </section>
+
+        {/* ScrollStack */}
+
+        <section className="pb-135 sm:pb-70">
           <ScrollStack>
             <ScrollStackItem itemClassName="bg-[#0B0F19] text-white  border border-white/10 overflow-hidden">
               <div className="h-full  flex flex-col md:flex-row items-center justify-between gap-8">
@@ -330,13 +343,15 @@ const Home = () => {
               </div>
             </ScrollStackItem>
 
-            <ScrollStackItem itemClassName="h-auto bg-gradient-to-br from-violet-600 via-indigo-600 to-blue-600 text-white overflow-hidden">
-              <div className="h-full flex flex-col md:flex-row items-center justify-between gap-8">
-                <div className="max-w-2xl">
+            <ScrollStackItem itemClassName=" h-auto   bg-gradient-to-br from-violet-600 via-indigo-600 to-blue-600 text-white overflow-hidden">
+              <div className="h-full  flex flex-col md:flex-row items-center justify-between gap-10 md:gap-12 py-10 md:py-8">
+                {/* Content */}
+                <div className="w-full max-w-2xl flex flex-col items-start">
                   <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-5 rounded-full bg-white/10 border border-white/10 text-sm">
                     🚀 Ready when you are
                   </div>
-                  <h2 className="text-4xl md:text-6xl font-bold tracking-tight leading-tight">
+
+                  <h2 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05]">
                     Stop designing slides.
                     <br />
                     <span className="text-blue-200">
@@ -344,35 +359,52 @@ const Home = () => {
                     </span>
                   </h2>
 
-                  <p className="mt-5 text-lg text-white/70 max-w-xl">
+                  <p className="mt-5 text-lg leading-relaxed text-white/70 max-w-xl">
                     Create presentations that look professional, communicate
                     clearly, and feel like they were designed by an expert.
                   </p>
 
-                  <button className="mt-7 cursor-pointer px-7 py-3.5 rounded-xl bg-white text-indigo-600 font-semibold hover:scale-105 transition-transform shadow-xl">
-                    <Link to="/login">Create your first presentation →</Link>
-                  </button>
+                  {/* Fixed CTA */}
+                  <Link
+                    to="/login"
+                    className="
+          inline-flex w-fit shrink-0
+          items-center justify-center
+          mt-8 px-7 py-3.5
+          rounded-xl
+          bg-white text-indigo-600
+          font-semibold
+          whitespace-nowrap
+          shadow-xl
+          transition-all duration-200
+          hover:scale-105 hover:shadow-2xl
+          focus:outline-none focus:ring-2 focus:ring-white/70
+        "
+                  >
+                    Create your first presentation →
+                  </Link>
                 </div>
 
-                <div className="relative w-full md:w-90 h-55 flex items-center justify-center">
+                {/* Visual */}
+                <div className="relative w-full md:w-90 h-60 shrink-0 flex items-center justify-center">
                   <div className="absolute w-48 h-48 rounded-full bg-white/10 blur-2xl" />
 
                   <div className="relative grid grid-cols-2 gap-4">
-                    <div className="w-28 h-20 rounded-xl bg-white/20 backdrop-blur border border-white/20 p-4 rotate-[-8deg]">
+                    <div className="w-28 h-20 rounded-xl bg-white/20 backdrop-blur border border-white/20 p-4 rotate-[-8deg] shadow-lg">
                       <div className="w-12 h-2 rounded bg-white/60 mb-3" />
                       <div className="w-full h-2 rounded bg-white/20" />
                     </div>
 
-                    <div className="w-28 h-20 rounded-xl bg-white/20 backdrop-blur border border-white/20 p-4 rotate-[7deg]">
+                    <div className="w-28 h-20 rounded-xl bg-white/20 backdrop-blur border border-white/20 p-4 rotate-[7deg] shadow-lg">
                       <div className="w-16 h-2 rounded bg-white/60 mb-3" />
                       <div className="w-full h-2 rounded bg-white/20" />
                     </div>
 
-                    <div className="w-28 h-20 rounded-xl bg-white/20 backdrop-blur border border-white/20 p-4 rotate-[5deg]">
+                    <div className="w-28 h-20 rounded-xl bg-white/20 backdrop-blur border border-white/20 p-4 rotate-[5deg] shadow-lg">
                       <div className="text-2xl">✦</div>
                     </div>
 
-                    <div className="w-28 h-20 rounded-xl bg-white/20 backdrop-blur border border-white/20 p-4 rotate-[-5deg]">
+                    <div className="w-28 h-20 rounded-xl bg-white/20 backdrop-blur border border-white/20 p-4 rotate-[-5deg] shadow-lg">
                       <div className="text-2xl">⚡</div>
                     </div>
                   </div>
@@ -381,6 +413,8 @@ const Home = () => {
             </ScrollStackItem>
           </ScrollStack>
         </section>
+
+        {/* Footer */}
 
         <Footer />
       </div>
