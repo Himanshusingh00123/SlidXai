@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="sm:h-screen h-full  px-3 pt-28 sm:px-20">
+    <footer className="sm:h-screen h-full  px-3 pt-18 sm:px-20">
       <div className="h-full rounded-t-3xl bg-amber-50 pt-4">
         <div className="flex h-full flex-col justify-center gap-4 items-center">
           {/* Top Section */}

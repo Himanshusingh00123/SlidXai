@@ -7,6 +7,10 @@ import Intelligence from "../assets/Intelligence.png";
 import Story from "../assets/Story.png";
 import PPT from "../assets/PPT.png";
 import FlowingMenu from "@/components/FlowingMenu";
+import TiltedCard from "@/components/TiltedCard";
+import Clarity from "@/assets/Clarity.png";
+import Motion from "@/assets/Motion.png";
+import Craft from "@/assets/Craft.png";
 
 const About = () => {
   const demoItems = [
@@ -49,7 +53,7 @@ const About = () => {
                 disappear inside bad slides.
               </h2>
             </div>
-            <div className="relative px-5  sm:px-45 pt-13 min-h-screen  overflow-hidden">
+            <div className="relative   sm:px-45 pt-13 min-h-screen  overflow-hidden">
               <div className="sm:w-6/12 sm:h-120 h-68 relative ">
                 <FlowingMenu
                   items={demoItems}
@@ -117,7 +121,120 @@ const About = () => {
               </div>
             </div>
           </div>
+
+          <div className="mt-6 overflow-hidden rounded-2xl bg-white sm:mt-10">
+            {/* Text */}
+            <div className="px-4 py-10 text-center text-black sm:px-8 sm:py-12">
+              <h1 className="text-4xl font-bold leading-tight sm:text-7xl">
+                We don't believe AI should
+              </h1>
+
+              <h2 className="mt-1 text-4xl font-bold leading-tight sm:text-7xl">
+                replace creativity.
+              </h2>
+
+              <h3 className="pt-6 text-2xl font-extrabold leading-tight sm:text-5xl">
+                <span className="text-gray-500/40">We believe it should</span>{" "}
+                remove the
+              </h3>
+
+              <h4 className="text-2xl font-extrabold leading-tight sm:text-5xl">
+                friction <span className="text-gray-500/40">around it.</span>
+              </h4>
+            </div>
+
+            {/* ================= TILTED CARDS ================= */}
+            <div className="flex flex-col items-center gap-10 overflow-hidden px-4 py-8 sm:h-124 sm:flex-row sm:justify-between sm:gap-0 sm:px-12 sm:py-2 lg:px-24">
+              {/* CLARITY */}
+              <TiltedCard
+                imageSrc={Clarity}
+                altText="SlidXai clarity visual showing complex ideas becoming simple"
+                captionText="CLARITY — Make complex ideas simple"
+                containerHeight="min(360px, 85vw)"
+                containerWidth="min(360px, 85vw)"
+                imageHeight="min(360px, 85vw)"
+                imageWidth="min(360px, 85vw)"
+                rotateAmplitude={10}
+                scaleOnHover={1.06}
+                showMobileWarning={false}
+                showTooltip
+                displayOverlayContent
+                overlayContent={
+                  <div className="tilted-card-demo-text p-6 sm:p-8">
+                    <span className="text-xs uppercase tracking-[0.2em] opacity-60">
+                      01
+                    </span>
+
+                    <p className="mt-1 text-lg font-semibold">◉ Clarity</p>
+
+                    <p className="text-sm opacity-60">
+                      Complex ideas deserve simple communication.
+                    </p>
+                  </div>
+                }
+              />
+
+              {/* MOTION */}
+              <TiltedCard
+                imageSrc={Motion}
+                altText="SlidXai motion visual showing presentations coming alive"
+                captionText="MOTION — Make every slide feel alive."
+                containerHeight="min(360px, 85vw)"
+                containerWidth="min(360px, 85vw)"
+                imageHeight="min(360px, 85vw)"
+                imageWidth="min(360px, 85vw)"
+                rotateAmplitude={10}
+                scaleOnHover={1.06}
+                showMobileWarning={false}
+                showTooltip
+                displayOverlayContent
+                overlayContent={
+                  <div className="tilted-card-demo-text p-6 sm:p-8">
+                    <span className="text-xs uppercase tracking-[0.2em] opacity-60">
+                      02
+                    </span>
+
+                    <p className="mt-1 text-lg font-semibold">⌁ MOTION</p>
+
+                    <p className="text-sm opacity-60">
+                      Make every slide feel alive.
+                    </p>
+                  </div>
+                }
+              />
+
+              {/* CRAFT */}
+              <TiltedCard
+                imageSrc={Craft}
+                altText="SlidXai craft visual showing AI assisted design"
+                captionText="CRAFT — AI creates faster. Design makes it yours."
+                containerHeight="min(360px, 85vw)"
+                containerWidth="min(360px, 85vw)"
+                imageHeight="min(360px, 85vw)"
+                imageWidth="min(360px, 85vw)"
+                rotateAmplitude={10}
+                scaleOnHover={1.06}
+                showMobileWarning={false}
+                showTooltip
+                displayOverlayContent
+                overlayContent={
+                  <div className="tilted-card-demo-text p-6 sm:p-8">
+                    <span className="text-xs uppercase tracking-[0.2em] opacity-60">
+                      03
+                    </span>
+
+                    <p className="mt-1 text-lg font-semibold">✦ CRAFT</p>
+
+                    <p className="text-sm opacity-60">
+                      AI creates faster. Design makes it yours.
+                    </p>
+                  </div>
+                }
+              />
+            </div>
+          </div>
         </section>
+
         <Footer />
       </div>
     </div>
