@@ -9,7 +9,6 @@ const Navbar = () => {
   const items = [
     { label: "Home", link: "/" },
     { label: "About", link: "/about" },
-    { label: "Features", link: "/features" },
     { label: "How It Works", link: "/how-it-works" },
   ];
 
