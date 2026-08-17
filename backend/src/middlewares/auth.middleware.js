@@ -7,7 +7,7 @@ export const getMe = (req, res, next) => {
       return next();
     }
 
-    return res.redirect(`${process.env.CLIENT_URL}/login`);
+    return res.status(401).json({ message: "Unauthorized" });
   } catch (error) {
     return res.status(500).json({
       message: "Internal server error",
@@ -25,7 +25,9 @@ export const logout = (req, res, next) => {
 
         res.clearCookie("connect.sid");
 
-        return res.redirect(`${process.env.CLIENT_URL}/login`);
+        return res.status(200).json({
+          message: "Logout successful",
+        });
       });
     });
   } catch (error) {

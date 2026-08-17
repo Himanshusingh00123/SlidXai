@@ -11,14 +11,17 @@ import {
   ChevronRight,
 } from "lucide-react";
 
+import Swal from "sweetalert2";
 import Logo from "../../public/Logo.png";
 import MyPresentation from "@/components/MyPresentation";
 import Profile from "@/components/Profile";
 import CreatePPT from "@/components/CreatePPT";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   // 1. Navigation Tab State ('create' | 'presentations' | 'profile')
   const [activeTab, setActiveTab] = useState("create");
+  const navigate = useNavigate();
 
   // 2. Sidebar open on desktop (>= 768px), closed on mobile (< 768px)
   const [sidebarOpen, setSidebarOpen] = useState(() => {
@@ -31,7 +34,38 @@ const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Sample data for My Presentations
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const Logout = async () => {
+    const logoutDialog = await Swal.fire({
+      title: "Ready to leave?",
+      text: "You will be signed out of your account.",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Logout",
+      cancelButtonText: "Stay logged in",
+      confirmButtonColor: "#dc3545",
+      cancelButtonColor: "#6c757d",
+      reverseButtons: true,
+    });
+
+    if (logoutDialog.isConfirmed) {
+      try {
+        const response = await fetch("http://localhost:5000/auth/logout", {
+          method: "GET",
+          credentials: "include",
+        });
+        if (!response.ok) {
+          throw new Error(`Logout failed: ${response.status}`);
+        }
+        setUser(null);
+        navigate("/");
+      } catch (error) {
+        console.error("Failed to Logout:", error);
+      }
+    }
+  };
 
   // Adjust sidebar on resize
   useEffect(() => {
@@ -68,10 +102,16 @@ const Dashboard = () => {
         credentials: "include",
       });
 
-      const data = await response.json();
-      console.log(data.user);
+      const result = await response.json();
+      if (result.message === "Unauthorized") {
+        navigate("/");
+        return;
+      }
+      setUser(result.user);
     } catch (error) {
       console.error("Failed to fetch profile:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -213,7 +253,7 @@ const Dashboard = () => {
             icon={<LogOut size={19} />}
             label="Logout"
             open={sidebarOpen}
-            onClick={() => console.log("Logging out...")}
+            onClick={Logout}
           />
         </div>
       </aside>
@@ -258,15 +298,13 @@ const Dashboard = () => {
               className="flex items-center gap-2 cursor-pointer rounded-lg px-2 sm:px-3 py-1.5 transition hover:bg-white/5"
             >
               <div className="hidden text-right sm:block">
-                <p className="text-sm font-semibold text-white">
-                  Himanshu Singh
-                </p>
-                <p className="text-xs text-gray-400">himanshu@example.com</p>
+                <p className="text-sm font-semibold text-white">{user?.name}</p>
+                <p className="text-xs text-gray-400">{user?.email}</p>
               </div>
 
               <img
-                src="https://i.pravatar.cc/100?img=12"
-                alt="Profile"
+                src={user?.profileImg}
+                alt="ProfileImg"
                 className="h-9 w-9 rounded-full border-2 border-white/20 object-cover"
               />
 
@@ -282,16 +320,16 @@ const Dashboard = () => {
               <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-64 rounded-xl border border-white/10 bg-[#0f0f13] p-2 shadow-2xl backdrop-blur-lg">
                 <div className="flex items-center gap-3 rounded-lg p-2 bg-white/5">
                   <img
-                    src="https://i.pravatar.cc/100?img=12"
+                    src={user?.profileImg}
                     alt="Profile"
                     className="h-9 w-9 rounded-full object-cover border border-white/20"
                   />
                   <div className="overflow-hidden">
                     <p className="text-sm font-semibold text-white truncate">
-                      Himanshu Singh
+                      {user?.name}
                     </p>
                     <p className="text-xs text-gray-400 truncate">
-                      himanshu@example.com
+                      {user?.email}
                     </p>
                   </div>
                 </div>
@@ -314,7 +352,7 @@ const Dashboard = () => {
                   type="button"
                   onClick={() => {
                     setIsOpen(false);
-                    console.log("Log out");
+                    Logout();
                   }}
                   className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-red-400 hover:bg-red-500/10 cursor-pointer transition"
                 >
@@ -330,14 +368,24 @@ const Dashboard = () => {
             CONDITIONAL PAGES CONTAINER
         ====================================================== */}
         <div className="relative z-10 flex-1 overflow-y-auto">
-          {/* ================= PAGE 1: CREATE NEW PPT ================= */}
-          {activeTab === "create" && <CreatePPT />}
+          {loading ? (
+            <div className="flex-col h-full gap-4 w-full flex items-center justify-center">
+              <div className="w-20 h-20 border-4 border-transparent text-blue-400 text-4xl animate-spin flex items-center justify-center border-t-blue-400 rounded-full">
+                <div className="w-16 h-16 border-4 border-transparent text-red-400 text-2xl animate-spin flex items-center justify-center border-t-red-400 rounded-full" />
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* ================= PAGE 1: CREATE NEW PPT ================= */}
+              {activeTab === "create" && <CreatePPT user={user} />}
 
-          {/* ================= PAGE 2: MY PRESENTATIONS ================= */}
-          {activeTab === "presentations" && <MyPresentation />}
+              {/* ================= PAGE 2: MY PRESENTATIONS ================= */}
+              {activeTab === "presentations" && <MyPresentation user={user} />}
 
-          {/* ================= PAGE 3: USER PROFILE ================= */}
-          {activeTab === "profile" && <Profile />}
+              {/* ================= PAGE 3: USER PROFILE ================= */}
+              {activeTab === "profile" && <Profile user={user} />}
+            </>
+          )}
         </div>
       </main>
     </div>

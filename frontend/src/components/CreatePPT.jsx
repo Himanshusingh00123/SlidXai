@@ -3,7 +3,8 @@ import { useState } from "react";
 import SplitText from "./SplitText";
 import DotGrid from "@/components/DotGrid";
 
-const CreatePPT = () => {
+const CreatePPT = ({ user }) => {
+  const userName = user?.name?.trim() || "there";
   const [text, setText] = useState("");
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -37,7 +38,7 @@ const CreatePPT = () => {
         {/* GREETING */}
         <div className="mb-8 w-full text-center">
           <SplitText
-            text="Hello, Himanshu Singh!"
+            text={`Hello, ${userName}!`}
             className="text-center text-3xl font-semibold sm:text-4xl md:text-5xl"
             delay={50}
             duration={1.25}

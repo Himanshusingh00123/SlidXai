@@ -8,7 +8,7 @@ import {
   Search,
 } from "lucide-react";
 
-const MyPresentations = ({ onCreateNew }) => {
+const MyPresentations = ({ onCreateNew, user }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   // Sample Presentations list (can be fetched from your API)
@@ -46,33 +46,7 @@ const MyPresentations = ({ onCreateNew }) => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h2 className="text-2xl font-bold text-white">My Presentations</h2>
-          <p className="text-sm text-white/50 mt-1">
-            Manage, edit, and export your generated slide decks.
-          </p>
         </div>
-
-        <button
-          onClick={onCreateNew}
-          className="flex items-center gap-2 rounded-xl bg-linear-to-r from-[#22D3EE] via-[#306FF7] to-[#8B5CF6] px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition hover:opacity-90 hover:scale-105 active:scale-95 cursor-pointer w-fit"
-        >
-          <Plus size={18} />
-          <span>Create New PPT</span>
-        </button>
-      </div>
-
-      {/* Search Bar */}
-      <div className="mb-6 relative max-w-md">
-        <Search
-          size={16}
-          className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40"
-        />
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search presentations..."
-          className="w-full rounded-xl border border-white/10 bg-white/5 pl-10 pr-4 py-2 text-sm text-white placeholder:text-white/35 outline-none focus:border-purple-500/50 transition"
-        />
       </div>
 
       {/* Grid of Presentations */}

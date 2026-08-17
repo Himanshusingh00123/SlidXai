@@ -7,9 +7,33 @@ import Footer from "@/components/Footer";
 import ScrollStack, { ScrollStackItem } from "@/components/ScrollStack";
 import { Link } from "react-router-dom";
 import ScrollVelocity from "@/components/ScrollVelocity";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [fontSize, setFontSize] = useState(80);
+  const navigate = useNavigate();
+
+  const fetchUserSession = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/auth/get-me", {
+        method: "GET",
+        credentials: "include",
+      });
+
+      const result = await response.json();
+      if (result.message === "Unauthorized") {
+        navigate("/");
+        return;
+      }
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Failed to fetch profile:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserSession();
+  }, []);
 
   useEffect(() => {
     const updateFontSize = () => {
