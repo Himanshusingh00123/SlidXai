@@ -1,9 +1,10 @@
 import { ArrowUp } from "lucide-react";
 import { useState } from "react";
 import SplitText from "./SplitText";
-import DotGrid from "@/components/DotGrid";
+import DotGrid from "./DotGrid";
 
 const CreatePPT = ({ user }) => {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const userName = user?.name?.trim() || "there";
   const [text, setText] = useState("");
   const handleKeyDown = (e) => {
@@ -13,10 +14,21 @@ const CreatePPT = ({ user }) => {
     }
   };
 
-  const handleSend = () => {
-    if (!text.trim()) return;
-    console.log("Submitted prompt:", text);
-    // Add your generation / redirect logic here
+  const handleSend = async () => {
+    setText("");
+    try {
+      const response = await fetch(`${apiUrl}/api/ppt/generate-ppt`, {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify({
+          pptDescription: text,
+        }),
+      });
+
+      const result = await response.json();
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="flex min-h-full relative flex-col items-center justify-center px-4 sm:px-6 py-10">

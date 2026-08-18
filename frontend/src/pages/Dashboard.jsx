@@ -19,6 +19,7 @@ import CreatePPT from "@/components/CreatePPT";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
   // 1. Navigation Tab State ('create' | 'presentations' | 'profile')
   const [activeTab, setActiveTab] = useState("create");
   const navigate = useNavigate();
@@ -30,6 +31,20 @@ const Dashboard = () => {
     }
     return false;
   });
+
+  // Fetch all PPTs
+
+  const fetchPPTs = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/api/ppt/fetchAll-ppt`, {
+        method: "GET",
+        credentials: "include",
+      });
+      const result = await response.json();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -52,7 +67,7 @@ const Dashboard = () => {
 
     if (logoutDialog.isConfirmed) {
       try {
-        const response = await fetch("http://localhost:5000/auth/logout", {
+        const response = await fetch(`${apiUrl}/auth/logout`, {
           method: "GET",
           credentials: "include",
         });
@@ -97,7 +112,7 @@ const Dashboard = () => {
 
   const fetchProfile = async () => {
     try {
-      const response = await fetch("http://localhost:5000/auth/get-me", {
+      const response = await fetch(`${apiUrl}/auth/get-me`, {
         method: "GET",
         credentials: "include",
       });
@@ -231,6 +246,7 @@ const Dashboard = () => {
             open={sidebarOpen}
             active={activeTab === "presentations"}
             onClick={() => {
+              fetchPPTs();
               setActiveTab("presentations");
               if (window.innerWidth < 768) setSidebarOpen(false);
             }}

@@ -21,7 +21,7 @@ export const generatePpt = async (req, res) => {
   );
 
   try {
-    const { pptDescription } = req.body;
+    const { pptDescription } = req.body || {};
 
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
@@ -32,10 +32,9 @@ export const generatePpt = async (req, res) => {
       return res.status(429).json(code);
     }
 
-    // const user = req.user.id;
+    const user = req.user?.id;
 
     fs.writeFileSync(ScriptfilePath, code, "utf-8");
-
     await execPromise(` node "${ScriptfilePath}"`, {
       cwd: path.join(import.meta.dirname, "../../"),
     });
@@ -51,7 +50,7 @@ export const generatePpt = async (req, res) => {
     const pptData = await cloudStorage(PptUniqueFilePath);
 
     const userPPT = await pptModel.create({
-      userId: "6a756e7a8b1342e00b69acbc",
+      userId: user || "6a8356e3bf0062c369c92343",
       title: pptData.name || "Untitled Presentation",
       ppt: pptData.url,
     });
@@ -81,10 +80,10 @@ export const generatePpt = async (req, res) => {
 
 export const fetchAllPpt = async (req, res) => {
   try {
-    // const user = req.user.id;
+    const user = req.user?.id;
 
     const PptResponse = await pptModel.find({
-      userId: "6a756e7a8b1342e00b69acbc",
+      userId: user,
     });
 
     if (!PptResponse || PptResponse.length === 0) {
