@@ -10,21 +10,22 @@ import {
   ChevronDown,
   ChevronRight,
 } from "lucide-react";
-
 import Swal from "sweetalert2";
 import Logo from "../../public/Logo.png";
-import MyPresentation from "@/components/MyPresentation";
+import MyPresentations from "@/components/MyPresentation";
 import Profile from "@/components/Profile";
 import CreatePPT from "@/components/CreatePPT";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
-  // 1. Navigation Tab State ('create' | 'presentations' | 'profile')
-  const [activeTab, setActiveTab] = useState("create");
   const navigate = useNavigate();
 
-  // 2. Sidebar open on desktop (>= 768px), closed on mobile (< 768px)
+  // Navigation Tab State ('create' | 'presentations' | 'profile')
+  const [activeTab, setActiveTab] = useState("create");
+  const [ppt, setPpt] = useState([]);
+
+  // Sidebar state
   const [sidebarOpen, setSidebarOpen] = useState(() => {
     if (typeof window !== "undefined") {
       return window.innerWidth >= 768;
@@ -32,25 +33,44 @@ const Dashboard = () => {
     return false;
   });
 
-  // Fetch all PPTs
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch all PPTs safely
   const fetchPPTs = async () => {
     try {
       const response = await fetch(`${apiUrl}/api/ppt/fetchAll-ppt`, {
         method: "GET",
         credentials: "include",
       });
+
+      if (!response.ok) {
+        setPpt([]);
+        return;
+      }
+
       const result = await response.json();
+
+      // Ensure ppt state is always an Array regardless of backend response shape
+      if (Array.isArray(result)) {
+        setPpt(result);
+      } else if (Array.isArray(result?.ppts)) {
+        setPpt(result.ppts);
+      } else if (Array.isArray(result?.ppt)) {
+        setPpt(result.ppt);
+      } else if (Array.isArray(result?.data)) {
+        setPpt(result.data);
+      } else {
+        setPpt([]);
+      }
     } catch (error) {
-      console.log(error);
+      console.error("Failed to fetch PPTs:", error);
+      setPpt([]);
     }
   };
-
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
-
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   const Logout = async () => {
     const logoutDialog = await Swal.fire({
@@ -82,7 +102,7 @@ const Dashboard = () => {
     }
   };
 
-  // Adjust sidebar on resize
+  // Adjust sidebar on window resize
   useEffect(() => {
     let prevIsDesktop = window.innerWidth >= 768;
 
@@ -110,6 +130,7 @@ const Dashboard = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Fetch logged in profile
   const fetchProfile = async () => {
     try {
       const response = await fetch(`${apiUrl}/auth/get-me`, {
@@ -278,11 +299,9 @@ const Dashboard = () => {
           MAIN CONTENT AREA
       ====================================================== */}
       <main className="relative flex flex-1 flex-col h-screen overflow-hidden">
-        {/* =================================================
-            TOPBAR
-        ================================================== */}
+        {/* TOPBAR */}
         <header className="relative z-20 flex h-16 shrink-0 items-center justify-between border-b border-white/8 bg-[#09090b]/40 backdrop-blur-md px-4 sm:px-6">
-          {/* SIDEBAR TOGGLE & DYNAMIC TITLE */}
+          {/* Sidebar Toggle & Title */}
           <div className="flex items-center gap-4">
             <button
               onClick={() => {
@@ -298,15 +317,18 @@ const Dashboard = () => {
               )}
             </button>
 
-            <h1 className="text-base font-medium flex">
-              <span className="text-gray-300">SlidXai</span> <ChevronRight />
-              {activeTab === "create" && "Dashboard"}
-              {activeTab === "presentations" && "My Presentations"}
-              {activeTab === "profile" && "Profile"}
+            <h1 className="text-base font-medium flex items-center gap-1">
+              <span className="text-gray-300">SlidXai</span>
+              <ChevronRight size={16} />
+              <span>
+                {activeTab === "create" && "Dashboard"}
+                {activeTab === "presentations" && "My Presentations"}
+                {activeTab === "profile" && "Profile"}
+              </span>
             </h1>
           </div>
 
-          {/* PROFILE DROPDOWN (CLICK ONLY) */}
+          {/* Profile Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <button
               type="button"
@@ -320,7 +342,7 @@ const Dashboard = () => {
 
               <img
                 src={user?.profileImg}
-                alt="ProfileImg"
+                alt="Profile"
                 className="h-9 w-9 rounded-full border-2 border-white/20 object-cover"
               />
 
@@ -331,7 +353,7 @@ const Dashboard = () => {
               />
             </button>
 
-            {/* DROPDOWN MENU */}
+            {/* Dropdown Menu */}
             {isOpen && (
               <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-64 rounded-xl border border-white/10 bg-[#0f0f13] p-2 shadow-2xl backdrop-blur-lg">
                 <div className="flex items-center gap-3 rounded-lg p-2 bg-white/5">
@@ -380,25 +402,26 @@ const Dashboard = () => {
           </div>
         </header>
 
-        {/* =====================================================
-            CONDITIONAL PAGES CONTAINER
-        ====================================================== */}
+        {/* CONDITIONAL PAGES */}
         <div className="relative z-10 flex-1 overflow-y-auto">
           {loading ? (
-            <div className="flex-col h-full gap-4 w-full flex items-center justify-center">
-              <div className="w-20 h-20 border-4 border-transparent text-blue-400 text-4xl animate-spin flex items-center justify-center border-t-blue-400 rounded-full">
-                <div className="w-16 h-16 border-4 border-transparent text-red-400 text-2xl animate-spin flex items-center justify-center border-t-red-400 rounded-full" />
-              </div>
+            <div className="flex h-full w-full items-center justify-center">
+              <div className="h-12 w-12 animate-spin rounded-full border-4 border-violet-500/30 border-t-violet-500" />
             </div>
           ) : (
             <>
-              {/* ================= PAGE 1: CREATE NEW PPT ================= */}
+              {/* PAGE 1: CREATE NEW PPT */}
               {activeTab === "create" && <CreatePPT user={user} />}
 
-              {/* ================= PAGE 2: MY PRESENTATIONS ================= */}
-              {activeTab === "presentations" && <MyPresentation user={user} />}
+              {/* PAGE 2: MY PRESENTATIONS */}
+              {activeTab === "presentations" && (
+                <MyPresentations
+                  ppt={ppt}
+                  onCreateNew={() => setActiveTab("create")}
+                />
+              )}
 
-              {/* ================= PAGE 3: USER PROFILE ================= */}
+              {/* PAGE 3: USER PROFILE */}
               {activeTab === "profile" && <Profile user={user} />}
             </>
           )}
@@ -408,12 +431,11 @@ const Dashboard = () => {
   );
 };
 
-/* =========================================================
-   SIDEBAR ITEM COMPONENT WITH ONCLICK
-========================================================= */
+/* SIDEBAR ITEM COMPONENT */
 const SidebarItem = ({ icon, label, open, active = false, onClick }) => {
   return (
     <button
+      type="button"
       onClick={onClick}
       className={`
         group

@@ -50,7 +50,7 @@ export const generatePpt = async (req, res) => {
     const pptData = await cloudStorage(PptUniqueFilePath);
 
     const userPPT = await pptModel.create({
-      userId: user || "6a8356e3bf0062c369c92343",
+      userId: user,
       title: pptData.name || "Untitled Presentation",
       ppt: pptData.url,
     });
@@ -82,9 +82,11 @@ export const fetchAllPpt = async (req, res) => {
   try {
     const user = req.user?.id;
 
-    const PptResponse = await pptModel.find({
-      userId: user,
-    });
+    const PptResponse = await pptModel
+      .find({
+        userId: user,
+      })
+      .sort({ createdAt: -1 });
 
     if (!PptResponse || PptResponse.length === 0) {
       return res.status(200).json({
