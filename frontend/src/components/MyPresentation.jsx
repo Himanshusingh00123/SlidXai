@@ -3,9 +3,209 @@ import { Download, Trash2 } from "lucide-react";
 import PPTLogo from "../assets/PPTLogo.png";
 import Swal from "sweetalert2";
 
-const MyPresentations = ({ onCreateNew, ppt = [] }) => {
+const PPTChipLoader = () => (
+  <div className="flex h-full w-full items-center justify-center py-12">
+    <div className="w-full max-w-2xl">
+      <svg
+        viewBox="0 0 800 500"
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-full"
+      >
+        <defs>
+          <linearGradient id="chipGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#2d2d2d" />
+            <stop offset="100%" stopColor="#0f0f0f" />
+          </linearGradient>
+
+          <linearGradient id="textGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#eeeeee" />
+            <stop offset="100%" stopColor="#888888" />
+          </linearGradient>
+
+          <linearGradient id="pinGradient" x1="1" y1="0" x2="0" y2="0">
+            <stop offset="0%" stopColor="#bbbbbb" />
+            <stop offset="50%" stopColor="#888888" />
+            <stop offset="100%" stopColor="#555555" />
+          </linearGradient>
+        </defs>
+
+        {/* Traces */}
+        <g>
+          {/* Left */}
+          <path d="M100 100 H200 V210 H326" className="trace-bg" />
+          <path d="M100 100 H200 V210 H326" className="trace-flow" />
+
+          <path d="M80 180 H180 V230 H326" className="trace-bg" />
+          <path d="M80 180 H180 V230 H326" className="trace-flow" />
+
+          <path d="M60 260 H150 V250 H326" className="trace-bg" />
+          <path d="M60 260 H150 V250 H326" className="trace-flow" />
+
+          <path d="M100 350 H200 V270 H326" className="trace-bg" />
+          <path d="M100 350 H200 V270 H326" className="trace-flow" />
+
+          {/* Right */}
+          <path d="M700 90 H560 V210 H474" className="trace-bg" />
+          <path d="M700 90 H560 V210 H474" className="trace-flow" />
+
+          <path d="M740 160 H580 V230 H474" className="trace-bg" />
+          <path d="M740 160 H580 V230 H474" className="trace-flow" />
+
+          <path d="M720 250 H590 V250 H474" className="trace-bg" />
+          <path d="M720 250 H590 V250 H474" className="trace-flow" />
+
+          <path d="M680 340 H570 V270 H474" className="trace-bg" />
+          <path d="M680 340 H570 V270 H474" className="trace-flow" />
+        </g>
+
+        {/* Chip */}
+        <rect
+          x="330"
+          y="190"
+          width="140"
+          height="100"
+          rx="20"
+          ry="20"
+          fill="url(#chipGradient)"
+          stroke="#222"
+          strokeWidth="3"
+          style={{
+            filter: "drop-shadow(0 0 6px rgba(0,0,0,0.8))",
+          }}
+        />
+
+        {/* Left pins */}
+        <g>
+          <rect
+            x="322"
+            y="205"
+            width="8"
+            height="10"
+            fill="url(#pinGradient)"
+            rx="2"
+          />
+          <rect
+            x="322"
+            y="225"
+            width="8"
+            height="10"
+            fill="url(#pinGradient)"
+            rx="2"
+          />
+          <rect
+            x="322"
+            y="245"
+            width="8"
+            height="10"
+            fill="url(#pinGradient)"
+            rx="2"
+          />
+          <rect
+            x="322"
+            y="265"
+            width="8"
+            height="10"
+            fill="url(#pinGradient)"
+            rx="2"
+          />
+        </g>
+
+        {/* Right pins */}
+        <g>
+          <rect
+            x="470"
+            y="205"
+            width="8"
+            height="10"
+            fill="url(#pinGradient)"
+            rx="2"
+          />
+          <rect
+            x="470"
+            y="225"
+            width="8"
+            height="10"
+            fill="url(#pinGradient)"
+            rx="2"
+          />
+          <rect
+            x="470"
+            y="245"
+            width="8"
+            height="10"
+            fill="url(#pinGradient)"
+            rx="2"
+          />
+          <rect
+            x="470"
+            y="265"
+            width="8"
+            height="10"
+            fill="url(#pinGradient)"
+            rx="2"
+          />
+        </g>
+
+        {/* Text */}
+        <text
+          x="400"
+          y="240"
+          fontFamily="Arial, sans-serif"
+          fontSize="22"
+          fill="url(#textGradient)"
+          textAnchor="middle"
+          alignmentBaseline="middle"
+          className="font-bold tracking-wide"
+        >
+          Loading
+        </text>
+
+        {/* Connection dots */}
+        <circle cx="100" cy="100" r="5" fill="black" />
+        <circle cx="80" cy="180" r="5" fill="black" />
+        <circle cx="60" cy="260" r="5" fill="black" />
+        <circle cx="100" cy="350" r="5" fill="black" />
+
+        <circle cx="700" cy="90" r="5" fill="black" />
+        <circle cx="740" cy="160" r="5" fill="black" />
+        <circle cx="720" cy="250" r="5" fill="black" />
+        <circle cx="680" cy="340" r="5" fill="black" />
+
+        {/* SVG animation */}
+        <style>
+          {`
+            .trace-bg {
+              stroke: #252525;
+              stroke-width: 1.8;
+              fill: none;
+            }
+
+            .trace-flow {
+              stroke: #399fff;
+              stroke-width: 1.8;
+              fill: none;
+              stroke-dasharray: 40 400;
+              stroke-dashoffset: 438;
+              filter: drop-shadow(0 0 6px #399fff);
+              animation: flow 3s cubic-bezier(0.5, 0, 0.9, 1) infinite;
+            }
+
+            @keyframes flow {
+              to {
+                stroke-dashoffset: 0;
+              }
+            }
+          `}
+        </style>
+      </svg>
+    </div>
+  </div>
+);
+
+const MyPresentations = ({ onCreateNew, ppt = [], isLoading = false }) => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const [searchQuery, setSearchQuery] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Helper to safely extract an array from any data format
   const extractArray = (data) => {
@@ -45,6 +245,7 @@ const MyPresentations = ({ onCreateNew, ppt = [] }) => {
     });
     // 2. Only proceed if user clicked "Yes, delete it!"
     if (confirmResult.isConfirmed) {
+      setIsDeleting(true);
       try {
         const response = await fetch(`${apiUrl}/api/ppt/delete-ppt/${id}`, {
           method: "DELETE",
@@ -57,7 +258,16 @@ const MyPresentations = ({ onCreateNew, ppt = [] }) => {
           throw new Error("Failed to delete the presentation");
         }
         const data = await response.json();
-        // 3. Show success popup
+
+        // 3. Artificial delay after deleting to display the smooth loader animation
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+
+        // 4. Update UI list
+        setPresentations((prev) =>
+          prev.filter((item) => (item._id || item.id) !== id),
+        );
+
+        // 5. Show success popup
         await Swal.fire({
           title: "Deleted!",
           text: data.message || "Presentation deleted successfully.",
@@ -66,10 +276,6 @@ const MyPresentations = ({ onCreateNew, ppt = [] }) => {
           color: "#ffffff",
           confirmButtonColor: "#8b5cf6",
         });
-        // 4. Update UI list
-        setPresentations((prev) =>
-          prev.filter((item) => (item._id || item.id) !== id),
-        );
       } catch (error) {
         Swal.fire({
           icon: "error",
@@ -79,6 +285,8 @@ const MyPresentations = ({ onCreateNew, ppt = [] }) => {
           color: "#ffffff",
           confirmButtonColor: "#8b5cf6",
         });
+      } finally {
+        setIsDeleting(false);
       }
     }
   };
@@ -121,8 +329,10 @@ const MyPresentations = ({ onCreateNew, ppt = [] }) => {
         </div>
       </div>
 
-      {/* Presentations List / Grid */}
-      {filtered.length > 0 ? (
+      {/* Presentations List / Loader / Empty State */}
+      {isLoading || isDeleting ? (
+        <PPTChipLoader />
+      ) : filtered.length > 0 ? (
         <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((presentation) => {
             const itemId = presentation._id || presentation.id || Math.random();

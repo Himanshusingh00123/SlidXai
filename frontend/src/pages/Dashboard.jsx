@@ -38,9 +38,11 @@ const Dashboard = () => {
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isFetchingPPTs, setIsFetchingPPTs] = useState(false);
 
   // Fetch all PPTs safely
   const fetchPPTs = async () => {
+    setIsFetchingPPTs(true);
     try {
       const response = await fetch(`${apiUrl}/api/ppt/fetchAll-ppt`, {
         method: "GET",
@@ -69,6 +71,8 @@ const Dashboard = () => {
     } catch (error) {
       console.error("Failed to fetch PPTs:", error);
       setPpt([]);
+    } finally {
+      setIsFetchingPPTs(false);
     }
   };
 
@@ -417,6 +421,7 @@ const Dashboard = () => {
               {activeTab === "presentations" && (
                 <MyPresentations
                   ppt={ppt}
+                  isLoading={isFetchingPPTs}
                   onCreateNew={() => setActiveTab("create")}
                 />
               )}
