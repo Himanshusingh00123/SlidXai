@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import authRoutes from "./routes/auth.routes.js";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 import passport from "passport";
 import cors from "cors";
 import pptRoutes from "./routes/ppt.routes.js";
@@ -29,6 +30,11 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI,
+      collectionName: "sessions",
+    }),
 
     cookie: {
       httpOnly: true,
