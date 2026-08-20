@@ -2,12 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const googleAuth = () => {
-    window.location.href = "http://localhost:5000/auth/google";
+    window.location.href = `${apiUrl}/auth/google`;
   };
 
   const githubAuth = () => {
-    window.location.href = "http://localhost:5000/auth/github";
+    window.location.href = `${apiUrl}/auth/github`;
   };
 
   return (
