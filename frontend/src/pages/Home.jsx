@@ -10,12 +10,13 @@ import ScrollVelocity from "@/components/ScrollVelocity";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [fontSize, setFontSize] = useState(80);
   const navigate = useNavigate();
 
   const fetchUserSession = async () => {
     try {
-      const response = await fetch("http://localhost:5000/auth/get-me", {
+      const response = await fetch(`${apiUrl}/auth/get-me`, {
         method: "GET",
         credentials: "include",
       });

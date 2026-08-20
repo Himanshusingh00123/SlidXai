@@ -7,8 +7,8 @@ export const ScrollStackItem = ({ children, itemClassName = "" }) => {
         scroll-stack-card
         relative
         w-full
-        min-h-[520px]
-        md:min-h-[500px]
+        min-h-130
+        md:min-h-125
         my-6
         md:my-8
         p-6
