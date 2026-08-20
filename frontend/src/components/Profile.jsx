@@ -38,13 +38,15 @@ const Profile = ({ user }) => {
               <div className="p-1 bg-white flex items-center justify-center rounded-full">
                 <svg
                   viewBox="0 0 24 24"
-                  className="h-4 w-4 fill-gray-800"
+                  className="h-3 w-3 fill-gray-800"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z" />
                 </svg>
               </div>
-              <p className="font-semibold text-xs text-white">{user?.name}</p>
+              <p className="font-semibold text-sm md:text-black text-white">
+                {user?.name}
+              </p>
             </div>
             <div className="flex flex-row gap-2">
               <div className="inline-flex gap-3 items-center justify-center">
@@ -62,7 +64,7 @@ const Profile = ({ user }) => {
                     <polyline points="22,6 12,13 2,6" />
                   </svg>
                 </div>
-                <p className="font-semibold text-xs text-white">
+                <p className="font-semibold text-xs md:text-black text-white">
                   {user?.email}
                 </p>
               </div>
@@ -70,7 +72,7 @@ const Profile = ({ user }) => {
           </div>
           <div className="btn">
             <button className="uppercase font-semibold text-xs px-2 whitespace-nowrap py-1 rounded-full bg-white text-gray-800">
-              Create Now
+              VERIFIED
             </button>
           </div>
         </div>
