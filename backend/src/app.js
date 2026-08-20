@@ -7,6 +7,7 @@ import cors from "cors";
 import pptRoutes from "./routes/ppt.routes.js";
 
 const app = express();
+app.set("trust proxy", 1); // Enable proxy trust for production deployments
 
 app.get("/health", (req, res) => {
   res.status(200).json({
