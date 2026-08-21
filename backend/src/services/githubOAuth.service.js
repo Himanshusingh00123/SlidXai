@@ -13,7 +13,7 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
         let user = await userModel.findOne({
-          authId: profile.id,
+          $or: [{ authId: profile.id }, { email: email }],
         });
         if (!user) {
           user = await userModel.create({
