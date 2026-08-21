@@ -150,7 +150,7 @@ const CreatePPT = ({ user }) => {
       if (progressBar) progressBar.style.width = `${stage.progress}%`;
 
       stageIndex++;
-    }, 5000);
+    }, 6500);
 
     try {
       const response = await fetch(`${apiUrl}/api/ppt/generate-ppt`, {
@@ -189,7 +189,7 @@ const CreatePPT = ({ user }) => {
                 </div>
                 
                 <div class="mt-1 flex items-center gap-2">
-                  <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-400 ring-1 ring-emerald-500/20">
+                  <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[9px] font-medium text-emerald-400 ring-1 ring-emerald-500/20">
                     <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                     Ready
                   </span>
