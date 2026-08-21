@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import LoginBg from "../assets/LoginBg.png";
 
 const Login = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -17,7 +18,7 @@ const Login = () => {
       <div className="relative flex min-h-105 w-full flex-col justify-between overflow-hidden p-6 sm:p-8 md:p-12 lg:min-h-screen lg:w-1/2">
         {/* Background */}
         <img
-          src="https://assets.watermelon.sh/auth-9.avif"
+          src={LoginBg}
           alt="Abstract blue background"
           className="absolute inset-0 h-full w-full object-cover"
         />

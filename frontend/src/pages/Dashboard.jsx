@@ -159,6 +159,19 @@ const Dashboard = () => {
     fetchProfile();
   }, []);
 
+  //  Dashboard loading screen
+
+  if (loading) {
+    return (
+      <div className="flex h-screen w-full flex-col items-center justify-center gap-4 bg-[#09090b] text-white">
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-violet-500/30 border-t-violet-500" />
+        <p className="text-sm font-medium text-white/60">
+          Loading Dashboard...
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-screen w-full overflow-hidden bg-[#09090b] text-white">
       {/* =====================================================
@@ -408,28 +421,20 @@ const Dashboard = () => {
 
         {/* CONDITIONAL PAGES */}
         <div className="relative z-10 flex-1 overflow-y-auto">
-          {loading ? (
-            <div className="flex h-full w-full items-center justify-center">
-              <div className="h-12 w-12 animate-spin rounded-full border-4 border-violet-500/30 border-t-violet-500" />
-            </div>
-          ) : (
-            <>
-              {/* PAGE 1: CREATE NEW PPT */}
-              {activeTab === "create" && <CreatePPT user={user} />}
+          {/* PAGE 1: CREATE NEW PPT */}
+          {activeTab === "create" && <CreatePPT user={user} />}
 
-              {/* PAGE 2: MY PRESENTATIONS */}
-              {activeTab === "presentations" && (
-                <MyPresentations
-                  ppt={ppt}
-                  isLoading={isFetchingPPTs}
-                  onCreateNew={() => setActiveTab("create")}
-                />
-              )}
-
-              {/* PAGE 3: USER PROFILE */}
-              {activeTab === "profile" && <Profile user={user} />}
-            </>
+          {/* PAGE 2: MY PRESENTATIONS */}
+          {activeTab === "presentations" && (
+            <MyPresentations
+              ppt={ppt}
+              isLoading={isFetchingPPTs}
+              onCreateNew={() => setActiveTab("create")}
+            />
           )}
+
+          {/* PAGE 3: USER PROFILE */}
+          {activeTab === "profile" && <Profile user={user} />}
         </div>
       </main>
     </div>
