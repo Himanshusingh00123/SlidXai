@@ -11,6 +11,8 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
+        const email = profile.emails && profile.emails[0]?.value;
+
         let user = await userModel.findOne({
           $or: [
             {
@@ -26,15 +28,18 @@ passport.use(
           user = await userModel.create({
             authId: profile.id,
             name: profile.displayName,
-            email: profile.emails[0].value,
-            profileImg: profile.photos[0].value,
+            email: profile.emails[0]?.value,
+            profileImg: profile.photos[0]?.value,
             provider: profile.provider,
           });
         }
 
         return done(null, user);
       } catch (error) {
-        return done(error, null);
+        return done(error, null, {
+          message:
+            "An account with this email address already exists. Please use a different email.",
+        });
       }
     },
   ),
